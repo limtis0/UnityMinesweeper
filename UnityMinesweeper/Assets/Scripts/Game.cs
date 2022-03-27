@@ -15,10 +15,12 @@ public class Game : MonoBehaviour
 
     private int fieldWidth;
     private int fieldHeight;
+    
     private int mineCount;
+    private int flagCount;
 
     [SerializeField] private TextMeshProUGUI minesLeft;
-    private int flagCount;
+    [SerializeField] private TextMeshProUGUI restartText;
 
     private void Awake()
     {
@@ -82,6 +84,8 @@ public class Game : MonoBehaviour
     {
         state = new Cell[fieldWidth, fieldHeight];
         
+        restartText.enabled = false;
+
         gameIsRunning = true;
         firstMoveMade = false;
 
@@ -310,6 +314,8 @@ public class Game : MonoBehaviour
     // GAME LOGIC
     private void Explode(Cell cell)
     {
+        restartText.enabled = true;
+
         gameIsRunning = false;
         Timer.stopTimer();
 
@@ -381,7 +387,9 @@ public class Game : MonoBehaviour
                 }
             }
         }
+
         updateMinesLeftText(0);
+        restartText.enabled = true;
     }
 
     private Cell GetCellUnderCursor()
